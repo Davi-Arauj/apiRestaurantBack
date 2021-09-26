@@ -1,5 +1,8 @@
 package api.restaurant.product.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +36,14 @@ public class ProductService {
         		.builder()
                 .message(message + id)
                 .build();
+    }
+    
+  //Buscando todos os produtos e transformando em DTO.
+    public List<ProductDTO> listAll() {
+           List<Product> allProduct = proRepository.findAll();
+    	   return allProduct.stream()
+                .map(productMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
 }
