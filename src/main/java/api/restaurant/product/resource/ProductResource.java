@@ -37,6 +37,11 @@ public class ProductResource {
 	    public List<ProductDTO> listAll() {
 	        return productService.listAll();
 	    }
+	    
+	    @GetMapping("/{id}")
+	    public ProductDTO findById(@PathVariable Long id) throws ProductNotFoundException {
+	        return productService.findById(id);
+	    }
 	    @PutMapping("/{id}")
 	    public ProductResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid ProductDTO productDTO) throws ProductNotFoundException {
 	        return productService.updateById(id, productDTO);
