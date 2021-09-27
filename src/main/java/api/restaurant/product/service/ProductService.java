@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import api.restaurant.product.dto.ProductDTO;
 import api.restaurant.product.dto.response.ProductResponseDTO;
 import api.restaurant.product.entity.Product;
+import api.restaurant.product.exception.ProductNotFoundException;
 import api.restaurant.product.mapper.ProductMapImp;
 import api.restaurant.product.repository.ProductRepository;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,27 @@ public class ProductService {
     	   return allProduct.stream()
                 .map(productMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+    
+    
+    //Buscando um produto por o ID, mais antes verifica se ele existe.
+    public ProductDTO findById(Long id) throws ProductNotFoundException {
+        Product product = verifyIfExists(id);
+        return productMapper.toDTO(product);
+    }
+    
+    //Metodo verificar se produto existe para nos auxiliar no desenvolvimento.
+    private Product verifyIfExists(Long id) throws ProductNotFoundException {
+        return proRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
+    }
+    
+    //Atualizando um produto, primeiro verifica se existe e assim atualiza, se não existir ele será criado.
+    public ProductResponseDTO updateById(Long id, ProductDTO productDTO) throws ProductNotFoundException {
+        verifyIfExists(id);
+        Product productToUpdate = productMapper.toModel(productDTO);
+        Product updatedProduct = proRepository.save(productToUpdate);
+        return createMessageResponse(updatedProduct.getId(), "Updated product with ID ");
     }
 
 }
