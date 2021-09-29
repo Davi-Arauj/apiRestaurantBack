@@ -67,5 +67,11 @@ public class ProductService {
         Product updatedProduct = proRepository.save(productToUpdate);
         return createMessageResponse(updatedProduct.getId(), "Updated product with ID ");
     }
+    
+    //Deletando um produto por o ID, mais antes verifica se ele existe.
+    public void delete(Long id) throws ProductNotFoundException {
+        verifyIfExists(id);
+        proRepository.deleteById(id);
+    }
 
 }
