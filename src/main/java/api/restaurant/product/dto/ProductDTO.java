@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import sale.entity.Sale;
 
 @Data
 @AllArgsConstructor
@@ -15,4 +16,5 @@ public class ProductDTO {
 	private String description;
 	private double price;
 	private int amount;
+	private Sale sale;
 }
