@@ -6,7 +6,7 @@ import api.restaurant.dto.ProductDTO;
 import api.restaurant.entity.Product;
 
 @Component
-public class ProductMapImp implements ProductMap{
+public class ProductMaping implements ProductMap{
 
 	@Override
 	public Product toModel(ProductDTO productDTO) {

@@ -11,22 +11,23 @@ import api.restaurant.dto.response.ProductResponseDTO;
 import api.restaurant.entity.Product;
 import api.restaurant.exception.ProductNotFoundException;
 import api.restaurant.mapper.ProductMaping;
+import api.restaurant.repository.CategoryRepository;
 import api.restaurant.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class ProductService {
+public class CategoryService {
 
 	
-	private  ProductRepository proRepository;
+	private  CategoryRepository categoryRepository;
 
 	private  ProductMaping productMapper;
 	
     
     //Criando uma nova Pessoa.
     public ProductResponseDTO createProduct(ProductDTO productDTO) {
-        Product savedProduct = proRepository.save(productMapper.toModel(productDTO));
+        Product savedProduct = categoryRepository.save(productMapper.toModel(productDTO));
         return createMessageResponse(savedProduct.getId(), "Created person with ID ");
     }
    
@@ -41,7 +42,7 @@ public class ProductService {
     
   //Buscando todos os produtos e transformando em DTO.
     public List<ProductDTO> listAll() {
-           List<Product> allProduct = proRepository.findAll();
+           List<Product> allProduct = categoryRepository.findAll();
     	   return allProduct.stream()
                 .map(productMapper::toDTO)
                 .collect(Collectors.toList());
@@ -56,7 +57,7 @@ public class ProductService {
     
     //Metodo verificar se produto existe para nos auxiliar no desenvolvimento.
     private Product verifyIfExists(Long id) throws ProductNotFoundException {
-        return proRepository.findById(id)
+        return categoryRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
     
@@ -64,14 +65,14 @@ public class ProductService {
     public ProductResponseDTO updateById(Long id, ProductDTO productDTO) throws ProductNotFoundException {
         verifyIfExists(id);
         Product productToUpdate = productMapper.toModel(productDTO);
-        Product updatedProduct = proRepository.save(productToUpdate);
+        Product updatedProduct = categoryRepository.save(productToUpdate);
         return createMessageResponse(updatedProduct.getId(), "Updated product with ID ");
     }
     
     //Deletando um produto por o ID, mais antes verifica se ele existe.
     public void delete(Long id) throws ProductNotFoundException {
         verifyIfExists(id);
-        proRepository.deleteById(id);
+        categoryRepository.deleteById(id);
     }
 
 }
