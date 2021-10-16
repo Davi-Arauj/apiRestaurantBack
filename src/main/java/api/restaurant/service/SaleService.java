@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import api.restaurant.dto.SaleDTO;
 import api.restaurant.dto.response.SaleResponseDTO;
 import api.restaurant.entity.Sale;
-import api.restaurant.exception.SaleNotFoundException;
 import api.restaurant.mapper.SaleMapping;
 import api.restaurant.repository.SaleRepository;
+import api.restaurant.service.exception.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -28,8 +28,6 @@ public class SaleService {
         return createMessageResponse(savedSale.getId(), "Created sale with ID ");
     }
     
-    
-    
     //Buscando todos as vendas e transformando em DTO.
       public List<SaleDTO> listAll() {
              List<Sale> allSale = saleRepository.findAll();
@@ -39,13 +37,13 @@ public class SaleService {
       }
     
     //Buscando uma Venda por o ID, mais antes verifica se ela existe.
-      public SaleDTO findById(Long id) throws SaleNotFoundException {
+      public SaleDTO findById(Long id) throws ObjectNotFoundException {
           Sale sale = verifyIfExists(id);
           return saleMapper.toDTO(sale);
       }
       
       //Atualizando uma venda, primeiro verifica se ela existe e assim atualiza, se não existir ela será criada.
-      public SaleResponseDTO updateById(Long id, SaleDTO saleDto) throws SaleNotFoundException {
+      public SaleResponseDTO updateById(Long id, SaleDTO saleDto) throws ObjectNotFoundException {
           verifyIfExists(id);
           Sale saleToUpdate = saleMapper.toModel(saleDto);
           Sale updatedSale = saleRepository.save(saleToUpdate);
@@ -53,7 +51,7 @@ public class SaleService {
       }
       
       //Deletando uma Venda por o ID, mais antes verifica se ela existe.
-      public void delete(Long id) throws SaleNotFoundException {
+      public void delete(Long id) throws ObjectNotFoundException {
           verifyIfExists(id);
           saleRepository.deleteById(id);
       }
@@ -61,9 +59,9 @@ public class SaleService {
     
 
       //Metodo verificar se uma venda existe para nos auxiliar no desenvolvimento.
-      private Sale verifyIfExists(Long id) throws SaleNotFoundException {
+      private Sale verifyIfExists(Long id) throws ObjectNotFoundException {
           return saleRepository.findById(id)
-                  .orElseThrow(() -> new SaleNotFoundException(id));
+                  .orElseThrow(() -> new ObjectNotFoundException("Object not found"));
       }
       
     //Metodo criar menssagem de resposta.

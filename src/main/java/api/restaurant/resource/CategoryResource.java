@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import api.restaurant.dto.CategoryDTO;
 import api.restaurant.dto.response.CategoryResponseDTO;
-import api.restaurant.exception.CategoryNotFoundException;
-import api.restaurant.exception.ProductNotFoundException;
 import api.restaurant.service.CategoryService;
+import api.restaurant.service.exception.ObjectNotFoundException;
 
 @RestController
 @RequestMapping("/api/v1/category")
@@ -42,16 +41,16 @@ public class CategoryResource {
 	    }
 	    
 	    @GetMapping("/{id}")
-	    public CategoryDTO findById(@PathVariable Long id) throws CategoryNotFoundException {
+	    public CategoryDTO findById(@PathVariable Long id) throws ObjectNotFoundException {
 	        return catService.findById(id);
 	    }
 	    @PutMapping("/{id}")
-	    public CategoryResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid CategoryDTO categoryDTO) throws CategoryNotFoundException {
+	    public CategoryResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid CategoryDTO categoryDTO) throws ObjectNotFoundException {
 	        return catService.updateById(id, categoryDTO);
 	    }
 	    @DeleteMapping("/{id}")
 	    @ResponseStatus(HttpStatus.NO_CONTENT)
-	    public void deleteById(@PathVariable Long id) throws CategoryNotFoundException {
+	    public void deleteById(@PathVariable Long id) throws ObjectNotFoundException {
 	        catService.delete(id);
 	    }
 }

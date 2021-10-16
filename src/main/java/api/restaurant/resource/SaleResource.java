@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import api.restaurant.dto.SaleDTO;
 import api.restaurant.dto.response.SaleResponseDTO;
-import api.restaurant.exception.SaleNotFoundException;
 import api.restaurant.service.SaleService;
+import api.restaurant.service.exception.ObjectNotFoundException;
 
 @RestController
 public class SaleResource {
@@ -38,16 +38,16 @@ public class SaleResource {
 	    }
 	    
 	    @GetMapping("/{id}")
-	    public SaleDTO findById(@PathVariable Long id) throws SaleNotFoundException {
+	    public SaleDTO findById(@PathVariable Long id) throws ObjectNotFoundException {
 	        return saleService.findById(id);
 	    }
 	    @PutMapping("/{id}")
-	    public SaleResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid SaleDTO saleDTO) throws SaleNotFoundException {
+	    public SaleResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid SaleDTO saleDTO) throws ObjectNotFoundException {
 	        return saleService.updateById(id, saleDTO);
 	    }
 	    @DeleteMapping("/{id}")
 	    @ResponseStatus(HttpStatus.NO_CONTENT)
-	    public void deleteById(@PathVariable Long id) throws SaleNotFoundException {
+	    public void deleteById(@PathVariable Long id) throws ObjectNotFoundException {
 	        saleService.delete(id);
 	    }
 }

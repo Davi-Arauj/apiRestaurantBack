@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import api.restaurant.dto.CategoryDTO;
 import api.restaurant.dto.response.CategoryResponseDTO;
 import api.restaurant.entity.Category;
-import api.restaurant.exception.CategoryNotFoundException;
 import api.restaurant.mapper.CategoryMaping;
 import api.restaurant.repository.CategoryRepository;
+import api.restaurant.service.exception.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -49,20 +49,20 @@ public class CategoryService {
 	}
 
 	// Buscando uma categoria por o ID, mais antes verifica se ele existe.
-	public CategoryDTO findById(Long id) throws CategoryNotFoundException {
+	public CategoryDTO findById(Long id) throws ObjectNotFoundException {
 		Category category = verifyIfExists(id);
 		return categoryMaping.toDTO(category);
 	}
 
 	// Metodo verificar se uma categoria existe para nos auxiliar no
 	// desenvolvimento.
-	private Category verifyIfExists(Long id) throws CategoryNotFoundException {
-		return categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
+	private Category verifyIfExists(Long id) throws ObjectNotFoundException {
+		return categoryRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found"));
 	}
 
 	// Atualizando uma categoria, primeiro verifica se existe e assim atualiza, se
 	// não existir ele será criado.
-	public CategoryResponseDTO updateById(Long id, CategoryDTO categoryDTO) throws CategoryNotFoundException {
+	public CategoryResponseDTO updateById(Long id, CategoryDTO categoryDTO) throws ObjectNotFoundException {
 		verifyIfExists(id);
 		Category categoryToUpdate = categoryMaping.toModel(categoryDTO);
 		Category updatedCategory = categoryRepository.save(categoryToUpdate);
@@ -70,7 +70,7 @@ public class CategoryService {
 	}
 
 	// Deletando uma categoria por o ID, mais antes verifica se ele existe.
-	public void delete(Long id) throws CategoryNotFoundException {
+	public void delete(Long id) throws ObjectNotFoundException {
 		verifyIfExists(id);
 		categoryRepository.deleteById(id);
 	}

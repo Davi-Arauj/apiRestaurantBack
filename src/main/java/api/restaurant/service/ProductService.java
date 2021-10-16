@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import api.restaurant.dto.ProductDTO;
 import api.restaurant.dto.response.ProductResponseDTO;
 import api.restaurant.entity.Product;
-import api.restaurant.exception.ProductNotFoundException;
 import api.restaurant.mapper.ProductMaping;
 import api.restaurant.repository.ProductRepository;
+import api.restaurant.service.exception.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -49,19 +49,19 @@ public class ProductService {
     
     
     //Buscando um produto por o ID, mais antes verifica se ele existe.
-    public ProductDTO findById(Long id) throws ProductNotFoundException {
+    public ProductDTO findById(Long id) throws ObjectNotFoundException {
         Product product = verifyIfExists(id);
         return productMapper.toDTO(product);
     }
     
     //Metodo verificar se produto existe para nos auxiliar no desenvolvimento.
-    private Product verifyIfExists(Long id) throws ProductNotFoundException {
+    private Product verifyIfExists(Long id) throws ObjectNotFoundException {
         return proRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException(id));
+                .orElseThrow(() -> new ObjectNotFoundException("Object not found"));
     }
     
     //Atualizando um produto, primeiro verifica se existe e assim atualiza, se não existir ele será criado.
-    public ProductResponseDTO updateById(Long id, ProductDTO productDTO) throws ProductNotFoundException {
+    public ProductResponseDTO updateById(Long id, ProductDTO productDTO) throws ObjectNotFoundException {
         verifyIfExists(id);
         Product productToUpdate = productMapper.toModel(productDTO);
         Product updatedProduct = proRepository.save(productToUpdate);
@@ -69,7 +69,7 @@ public class ProductService {
     }
     
     //Deletando um produto por o ID, mais antes verifica se ele existe.
-    public void delete(Long id) throws ProductNotFoundException {
+    public void delete(Long id) throws ObjectNotFoundException {
         verifyIfExists(id);
         proRepository.deleteById(id);
     }
