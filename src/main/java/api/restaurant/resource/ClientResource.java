@@ -2,6 +2,7 @@ package api.restaurant.resource;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -31,39 +32,41 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/client")
 public class ClientResource {
-	
-	
+
 	private ClientService clientService;
-	 
-	    @PostMapping
-	    @ResponseStatus(HttpStatus.CREATED)
-	    public ResponseEntity<Void> createClient(@RequestBody @Valid ClientNewDTO clientNewDTO) {
-	    	Client cli = clientService.fromDTO(clientNewDTO);
-	    	clientService.insert(cli);
-	    	URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-					.path("/{id}").buildAndExpand(cli.getId()).toUri();
-	        return ResponseEntity.created(uri).build();
-	    } 
-	    
-	    @GetMapping
-	    public List<ClientDTO> listAll() {
-	        return clientService.listAll();
-	    }
-	    
-	    @GetMapping("/{id}")
-	    public ClientDTO findById(@PathVariable Long id) throws ObjectNotFoundException {
-	        return clientService.findById(id);
-	    }
-	    @PutMapping("/{id}")
-	    public ClientResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid ClientDTO clientDTO) throws ObjectNotFoundException {
-	        return clientService.updateById(clientDTO);
-	    }
-	    @DeleteMapping("/{id}")
-	    @ResponseStatus(HttpStatus.NO_CONTENT)
-	    public void deleteById(@PathVariable Long id) throws ObjectNotFoundException {
-	        clientService.delete(id);
-	    }
 
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<Void> createClient(@Valid @RequestBody ClientNewDTO clientNewDTO) {
+		Client cli = clientService.fromDTO(clientNewDTO);
+		clientService.insert(cli);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cli.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
 
+	@GetMapping
+	public ResponseEntity<List<ClientDTO>> findAll() {
+		List<Client> list = clientService.findAll();
+		List<ClientDTO> listDto = list.stream().map(obj -> new ClientDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Client> findById(@PathVariable Long id) {
+		Client obj = clientService.findById(id);
+		return ResponseEntity.ok().body(obj);
+	}
+
+	@PutMapping("/{id}")
+	public ClientResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid ClientDTO clientDTO)
+			throws ObjectNotFoundException {
+		return clientService.updateById(clientDTO);
+	}
+
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteById(@PathVariable Long id) throws ObjectNotFoundException {
+		clientService.delete(id);
+	}
 
 }

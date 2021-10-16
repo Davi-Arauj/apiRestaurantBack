@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -32,10 +33,10 @@ public class Client implements Serializable {
 	private Long id;
 	private String name;
 	private String email;
-	private String CpfouCnpj;
+	private String cpfOuCnpj;
 	private Integer typeClient;
 
-	@OneToMany(mappedBy = "client")
+	@OneToMany(mappedBy = "client", cascade=CascadeType.ALL)
 	private List<Address> adresses = new ArrayList<>();
 
 	@ElementCollection
@@ -54,9 +55,9 @@ public class Client implements Serializable {
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.CpfouCnpj = cpfouCnpj;
-		this.typeClient = typeClient.getCod();
+		this.cpfOuCnpj = cpfouCnpj;
+		this.typeClient = (typeClient==null) ? null : typeClient.getCod();
 	}
 
-
+	
 }

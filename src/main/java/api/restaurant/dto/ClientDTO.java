@@ -5,15 +5,10 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import api.restaurant.entity.Client;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class ClientDTO {
 
 	private Long id;
@@ -25,4 +20,15 @@ public class ClientDTO {
 	@Email(message = "O email não é valido")
 	private String email;
 	
+	
+	
+	
+	public ClientDTO() {
+	}
+
+	public ClientDTO(Client obj) {
+		id = obj.getId();
+		name = obj.getName();
+		email = obj.getEmail();
+	}
 }

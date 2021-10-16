@@ -30,6 +30,7 @@ public class City implements Serializable{
 	
 	public City() {}
 
+
 	public City(Integer id,String name, State state) {
 		super();
 		this.id = id;
