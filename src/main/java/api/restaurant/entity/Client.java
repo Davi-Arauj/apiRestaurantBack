@@ -29,7 +29,7 @@ public class Client implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	private String name;
 	private String email;
 	private String CpfouCnpj;
@@ -49,7 +49,7 @@ public class Client implements Serializable {
 	public Client() {
 	}
 
-	public Client(Integer id, String name, String email, String cpfouCnpj, TypeClient typeClient) {
+	public Client(Long id, String name, String email, String cpfouCnpj, TypeClient typeClient) {
 		super();
 		this.id = id;
 		this.name = name;

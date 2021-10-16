@@ -32,7 +32,7 @@ public class CategoryResource {
 	 
 	    @PostMapping
 	    @ResponseStatus(HttpStatus.CREATED)
-	    public CategoryResponseDTO createProduct(@RequestBody @Valid CategoryDTO categoryDTO) {
+	    public CategoryResponseDTO create(@RequestBody @Valid CategoryDTO categoryDTO) {
 	        return catService.createCategory(categoryDTO);
 	    }
 	    
