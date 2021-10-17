@@ -19,7 +19,6 @@ import api.restaurant.entity.Address;
 import api.restaurant.entity.City;
 import api.restaurant.entity.Client;
 import api.restaurant.entity.enums.TypeClient;
-import api.restaurant.mapper.ClientMapping;
 import api.restaurant.repository.AddressRepository;
 import api.restaurant.repository.ClientRepository;
 import api.restaurant.service.exception.DataIntegrityException;
@@ -31,9 +30,7 @@ import lombok.AllArgsConstructor;
 public class ClientService {
 
 	private ClientRepository clientRepository;
-
-	private ClientMapping clientMaping;
-
+	
 	private AddressRepository addressRepository;
 
 	// Criando um novo cliente.
@@ -55,27 +52,25 @@ public class ClientService {
 		return clientRepository.findAll();
 	}
 
-	// Buscando todos as categorias de forma paginada
+	// Buscando todos os clientes de forma paginada
 	public Page<Client> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return clientRepository.findAll(pageRequest);
 	}
 
-	// Buscando uma categoria por o ID
+	// Buscando um cliente por o ID
 	public Client findById(Long id) throws ObjectNotFoundException {
 		Optional<Client> obj = clientRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Client.class.getName()));
 	}
 
-	// Metodo verificar se um objeto existe para nos auxiliar no
-	// desenvolvimento.
+	// Metodo verificar se um objeto existe 	
 	private Client verifyIfExists(Long id) throws ObjectNotFoundException {
 		return clientRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found"));
 	}
 
-	// Atualizando uma categoria, primeiro verifica se existe e assim atualiza,
-	// Se não existir ele será criado.
+	// Atualizando um cliente, primeiro verifica se existe e assim atualiza,
 	public ClientResponseDTO updateById(ClientDTO clientDTO) throws ObjectNotFoundException {
 		Client clientToUpdate = verifyIfExists(clientDTO.getId());// verifica no banco a existência do objeto
 		updateData(clientToUpdate, clientDTO);
@@ -83,7 +78,7 @@ public class ClientService {
 		return createMessageResponse(clientToUpdate.getId(), "Updated Client with ID ");
 	}
 
-	// Deletando uma categoria por o ID, mais antes verifica se ele existe.
+	// Deletando um cliente por o ID, mais antes verifica se ele existe.
 	public void delete(Long id) throws ObjectNotFoundException {
 		verifyIfExists(id);
 		try {
@@ -91,17 +86,19 @@ public class ClientService {
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Cannot delete because there are related entities");		}
 	}
-
+	//Metodo para auxiliar na atualização
 	private Client updateData(Client updatedClient, ClientDTO clientdto) {
 		updatedClient.setName(clientdto.getName());
 		updatedClient.setEmail(clientdto.getEmail());
 		return updatedClient;
 	}
 
+	//Transformando um objetoDTO em objeto
 	public Client fromDTO(ClientDTO objDto) {
 		return new Client(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null);
 	}
 
+	//Transformando um objeto em objetoDTO
 	public Client fromDTO(ClientNewDTO objDto) {
 		Client cli = new Client(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOuCnpj(),
 				TypeClient.toEnum(objDto.getTypeClient()));

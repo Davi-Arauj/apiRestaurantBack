@@ -1,7 +1,6 @@
 package api.restaurant.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,9 +36,8 @@ public class CategoryService {
 	}
 
 	// Buscando todos as categorias e transformando em DTO.
-	public List<CategoryDTO> listAll() {
-		List<Category> allCategory = categoryRepository.findAll();
-		return allCategory.stream().map(categoryMaping::toDTO).collect(Collectors.toList());
+	public List<Category> findAll() {
+		return categoryRepository.findAll();
 	}
 
 	// Buscando todos as categorias de forma paginada
@@ -47,7 +45,7 @@ public class CategoryService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return categoryRepository.findAll(pageRequest);
 	}
-
+	
 	// Buscando uma categoria por o ID, mais antes verifica se ele existe.
 	public CategoryDTO findById(Long id) throws ObjectNotFoundException {
 		Category category = verifyIfExists(id);
