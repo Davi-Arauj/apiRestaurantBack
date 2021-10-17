@@ -7,9 +7,11 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import api.restaurant.service.validation.ClientInsert;
 import lombok.Data;
 
 @Data
+@ClientInsert
 public class ClientNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
