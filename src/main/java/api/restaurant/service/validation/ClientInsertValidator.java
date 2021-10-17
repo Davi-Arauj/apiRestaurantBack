@@ -9,6 +9,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import api.restaurant.dto.ClientNewDTO;
+import api.restaurant.entity.Client;
 import api.restaurant.entity.enums.TypeClient;
 import api.restaurant.exception.FieldMessage;
 import api.restaurant.repository.ClientRepository;
@@ -36,11 +37,11 @@ public class ClientInsertValidator implements ConstraintValidator<ClientInsert, 
 			list.add(new FieldMessage("cpfOuCnpj", "CNPJ inválido"));
 		}
 
-//		Client aux = repo.findByEmail(objDto.getEmail());
-//		if (aux != null) {
-//			list.add(new FieldMessage("email", "Email já existente"));
-//		}
-//		
+		Client aux = repo.findByEmail(objDto.getEmail());
+		if (aux != null) {
+			list.add(new FieldMessage("email", "Email já existente"));
+		}
+		
 		for (FieldMessage e : list) {
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(e.getMessage()).addPropertyNode(e.getFiledName())
