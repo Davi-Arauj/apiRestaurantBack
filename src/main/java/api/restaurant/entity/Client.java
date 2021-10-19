@@ -15,13 +15,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import api.restaurant.entity.enums.TypeClient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @Entity
 public class Client implements Serializable {
@@ -30,6 +30,7 @@ public class Client implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@EqualsAndHashCode.Include
 	private Long id;
 	private String name;
 	private String email;
@@ -43,9 +44,9 @@ public class Client implements Serializable {
 	@CollectionTable(name = "telephone")
 	private Set<String> telephones = new HashSet<>();
 
-	@JsonIgnore
+	@JsonBackReference
 	@OneToMany(mappedBy = "client")
-	private List<Request> requests = new ArrayList<>();
+	private List<Pedido> pedidos = new ArrayList<>();
 
 	public Client() {
 	}

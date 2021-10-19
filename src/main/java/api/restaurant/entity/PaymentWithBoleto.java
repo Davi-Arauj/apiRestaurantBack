@@ -23,8 +23,8 @@ public class PaymentWithBoleto extends Payment{
 	
 	public PaymentWithBoleto() {}
 
-	public PaymentWithBoleto(Integer id, Paymentstate state, Request request,Date dateDue,Date datePayment) {
-		super(id, state, request);
+	public PaymentWithBoleto(Long id, Paymentstate state, Pedido pedido,Date dateDue,Date datePayment) {
+		super(id, state, pedido);
 		this.datePayment = datePayment;
 		this.dateDue = dateDue;
 		

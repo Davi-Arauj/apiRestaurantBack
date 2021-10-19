@@ -1,20 +1,28 @@
 package api.restaurant.dto;
 
-import api.restaurant.entity.Sale;
+import api.restaurant.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class ProductDTO {
 
 	private Long id;
-	private String description;
+	private String nome;
 	private double price;
-	private int amount;
-	private Sale sale;
+	
+	public ProductDTO(Product obj) {
+		this.id = obj.getId();
+		this.nome = obj.getNome();
+		this.price = obj.getPrice();
+	
+		
+	}
+
+	public ProductDTO() {
+		
+	}
 }

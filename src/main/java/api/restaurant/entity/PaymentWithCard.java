@@ -1,7 +1,13 @@
 package api.restaurant.entity;
 
+import javax.persistence.Entity;
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import api.restaurant.entity.enums.Paymentstate;
 
+@Entity
+@JsonTypeName("paymentWithCard")
 public class PaymentWithCard extends Payment{
 
 	private static final long serialVersionUID = 1L;
@@ -10,8 +16,8 @@ public class PaymentWithCard extends Payment{
 	
 	public PaymentWithCard() {}
 
-	public PaymentWithCard(Integer id, Paymentstate state, Request request,Integer numberOfInstallments) {
-		super(id, state, request);
+	public PaymentWithCard(Long id, Paymentstate state, Pedido pedido,Integer numberOfInstallments) {
+		super(id, state, pedido);
 		this.numberOfInstallments = numberOfInstallments;
 	}
 

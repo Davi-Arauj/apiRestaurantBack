@@ -1,11 +1,11 @@
 package api.restaurant.repository;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.stereotype.Repository;
 
-import api.restaurant.entity.Sale;
+import api.restaurant.entity.Pedido;
 
 @Repository
-public interface SaleRepository extends JpaRepository<Sale, Long>{
+public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 
 }

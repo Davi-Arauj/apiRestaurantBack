@@ -4,12 +4,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import api.restaurant.dto.ProductDTO;
 import api.restaurant.dto.response.ProductResponseDTO;
+import api.restaurant.entity.Category;
 import api.restaurant.entity.Product;
 import api.restaurant.mapper.ProductMaping;
+import api.restaurant.repository.CategoryRepository;
 import api.restaurant.repository.ProductRepository;
 import api.restaurant.service.exception.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
@@ -18,7 +23,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class ProductService {
 
-	
+	private CategoryRepository caRepository;
 	private  ProductRepository proRepository;
 
 	private  ProductMaping productMapper;
@@ -73,5 +78,11 @@ public class ProductService {
         verifyIfExists(id);
         proRepository.deleteById(id);
     }
-
+    
+    public Page<Product> search(String description, List<Long> ids, Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		List<Category> categories = caRepository.findAllById(ids);
+		return proRepository.searchIdProductAndCategory(description, categories, pageRequest);	
+	}
+    
 }

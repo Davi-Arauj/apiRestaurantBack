@@ -13,7 +13,7 @@ public class CategoryMaping implements CategoryMap{
 		// TODO Auto-generated method stub
 		Category cat = new Category();
 		cat.setId(categoryDTO.getId());
-		cat.setName(categoryDTO.getName());
+		cat.setDescription(categoryDTO.getDescription());
 		return cat;
 	}
 
@@ -22,7 +22,7 @@ public class CategoryMaping implements CategoryMap{
 		// TODO Auto-generated method stub
 		CategoryDTO catDto = new CategoryDTO();
 		catDto.setId(category.getId());
-		catDto.setName(category.getName());
+		catDto.setDescription(category.getDescription());
 		return catDto;
 	}
 

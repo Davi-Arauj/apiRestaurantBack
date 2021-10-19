@@ -13,8 +13,7 @@ public class ProductMaping implements ProductMap{
 		// TODO Auto-generated method stub
 		Product pro = new Product();
 		pro.setId(productDTO.getId());
-		pro.setAmount(productDTO.getAmount());
-		pro.setDescription(productDTO.getDescription());
+		pro.setNome(productDTO.getNome());
 		pro.setPrice(productDTO.getPrice());
 		return pro;
 	}
@@ -24,8 +23,7 @@ public class ProductMaping implements ProductMap{
 		// TODO Auto-generated method stub
 		ProductDTO proDto = new ProductDTO();
 		proDto.setId(product.getId());
-		proDto.setAmount(product.getAmount());
-		proDto.setDescription(product.getDescription());
+		proDto.setNome(product.getNome());
 		proDto.setPrice(product.getPrice());
 		return proDto;
 	}
