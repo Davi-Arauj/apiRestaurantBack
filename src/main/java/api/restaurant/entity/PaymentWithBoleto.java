@@ -5,11 +5,14 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import api.restaurant.entity.enums.Paymentstate;
+import lombok.Data;
 
-
+@Data
 @Entity
+@JsonTypeName("paymentWithBoleto")
 public class PaymentWithBoleto extends Payment{
 
 	private static final long serialVersionUID = 1L;
@@ -30,7 +33,5 @@ public class PaymentWithBoleto extends Payment{
 		
 	}
 
-	public Date getDateDue() {
-		return dateDue;
-	}
+
 }

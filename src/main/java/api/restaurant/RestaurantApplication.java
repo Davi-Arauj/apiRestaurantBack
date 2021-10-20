@@ -1,7 +1,6 @@
 package api.restaurant;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import api.restaurant.dto.ProductDTO;
 import api.restaurant.entity.Address;
 import api.restaurant.entity.Category;
 import api.restaurant.entity.City;
@@ -17,19 +17,20 @@ import api.restaurant.entity.OrderedItem;
 import api.restaurant.entity.Payment;
 import api.restaurant.entity.PaymentWithBoleto;
 import api.restaurant.entity.PaymentWithCard;
-import api.restaurant.entity.Product;
 import api.restaurant.entity.Pedido;
+import api.restaurant.entity.Product;
 import api.restaurant.entity.State;
 import api.restaurant.entity.enums.Paymentstate;
 import api.restaurant.entity.enums.TypeClient;
+import api.restaurant.mapper.ProductMaping;
 import api.restaurant.repository.AddressRepository;
 import api.restaurant.repository.CategoryRepository;
 import api.restaurant.repository.CityRepository;
 import api.restaurant.repository.ClientRepository;
 import api.restaurant.repository.OrderedItemRepository;
 import api.restaurant.repository.PaymentRepository;
-import api.restaurant.repository.ProductRepository;
 import api.restaurant.repository.PedidoRepository;
+import api.restaurant.repository.ProductRepository;
 import api.restaurant.repository.StateRepository;
 
 @SpringBootApplication
@@ -58,7 +59,8 @@ public class RestaurantApplication implements CommandLineRunner {
 	StateRepository estadoRepository;
 	@Autowired
 	OrderedItemRepository  itemPedidoRepository;
-	
+	@Autowired
+	ProductMaping productMapper;
 
 
 	@Override
@@ -73,17 +75,17 @@ public class RestaurantApplication implements CommandLineRunner {
 		Category cat7 = new Category(null, "Perfumaria");
 		
 		
-		Product p1 = new Product(null, "Computador", 2000.00);
-		Product p2 = new Product(null, "Impressora", 800.00);
-		Product p3 = new Product(null, "Mouse", 80.00);
-		Product p4 = new Product(null, "Mesa de escritório", 300.00);
-		Product p5 = new Product(null, "Toalha", 50.00);
-		Product p6 = new Product(null, "Colcha", 200.00);
-		Product p7 = new Product(null, "TV true color", 1200.00);
-		Product p8 = new Product(null, "Roçadeira", 800.00);
-		Product p9 = new Product(null, "Abajour", 100.00);
-		Product p10 = new Product(null, "Pendente", 180.00);
-		Product p11 = new Product(null,"Shampoo",90.00);
+		ProductDTO p1 = new ProductDTO(null, "Computador", 2000.00);
+		ProductDTO p2 = new ProductDTO(null, "Impressora", 800.00);
+		ProductDTO p3 = new ProductDTO(null, "Mouse", 80.00);
+		ProductDTO p4 = new ProductDTO(null, "Mesa de escritório", 300.00);
+		ProductDTO p5 = new ProductDTO(null, "Toalha", 50.00);
+		ProductDTO p6 = new ProductDTO(null, "Colcha", 200.00);
+		ProductDTO p7 = new ProductDTO(null, "TV true color", 1200.00);
+		ProductDTO p8 = new ProductDTO(null, "Roçadeira", 800.00);
+		ProductDTO p9 = new ProductDTO(null, "Abajour", 100.00);
+		ProductDTO p10 = new ProductDTO(null, "Pendente", 180.00);
+		ProductDTO p11 = new ProductDTO(null,"Shampoo",90.00);
 
 		cat1.getProducts().addAll(Arrays.asList(p1, p2, p3));
 		cat2.getProducts().addAll(Arrays.asList(p2));
@@ -108,7 +110,17 @@ public class RestaurantApplication implements CommandLineRunner {
 		p11.getCategories().addAll(Arrays.asList(cat7));		
 
 		catRepo.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
-		proRepo.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
+		proRepo.saveAll(Arrays.asList(productMapper.toModel(p1), 
+				productMapper.toModel(p2), 
+				productMapper.toModel(p3),
+				productMapper.toModel(p4),
+				productMapper.toModel(p5),
+				productMapper.toModel(p6),
+				productMapper.toModel(p7),
+				productMapper.toModel(p8),
+				productMapper.toModel(p9),
+				productMapper.toModel(p10),
+				productMapper.toModel(p11)));
 
 		State est1 = new State(null, "Minas Gerais");
 		State est2 = new State(null, "São Paulo");

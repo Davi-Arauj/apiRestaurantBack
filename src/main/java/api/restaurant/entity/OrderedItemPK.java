@@ -6,6 +6,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import api.restaurant.dto.ProductDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,7 +23,7 @@ public class OrderedItemPK implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	private Product product;
+	private ProductDTO product;
 
 	
 

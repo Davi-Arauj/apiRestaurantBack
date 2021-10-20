@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import api.restaurant.dto.ProductDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,7 +28,7 @@ public class OrderedItem implements Serializable {
 	public OrderedItem() {
 	}
 
-	public OrderedItem(Pedido pedido, Product product, Double price, Integer amount, Double discount) {
+	public OrderedItem(Pedido pedido, ProductDTO product, Double price, Integer amount, Double discount) {
 		super();
 		id.setRequest(pedido);
 		id.setProduct(product);
@@ -45,11 +46,11 @@ public class OrderedItem implements Serializable {
 		id.setRequest(pedido);
 	}
 	
-	public Product getProduct() {
+	public ProductDTO getProduct() {
 		return id.getProduct();
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(ProductDTO product) {
 		id.setProduct(product);
 	}
 	
