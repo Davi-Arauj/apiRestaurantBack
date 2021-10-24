@@ -28,7 +28,7 @@ public class OrderedItem implements Serializable {
 	public OrderedItem() {
 	}
 
-	public OrderedItem(Pedido pedido, ProductDTO product, Double price, Integer amount, Double discount) {
+	public OrderedItem(Pedido pedido, Product product, Double price, Integer amount, Double discount) {
 		super();
 		id.setRequest(pedido);
 		id.setProduct(product);
@@ -46,11 +46,11 @@ public class OrderedItem implements Serializable {
 		id.setRequest(pedido);
 	}
 	
-	public ProductDTO getProduct() {
+	public Product getProduct() {
 		return id.getProduct();
 	}
 
-	public void setProduct(ProductDTO product) {
+	public void setProduct(Product product) {
 		id.setProduct(product);
 	}
 	

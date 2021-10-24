@@ -54,9 +54,8 @@ public class ProductService {
     
     
     //Buscando um produto por o ID, mais antes verifica se ele existe.
-    public ProductDTO findById(Long id) throws ObjectNotFoundException {
-        Product product = verifyIfExists(id);
-        return productMapper.toDTO(product);
+    public Product findById(Long id) throws ObjectNotFoundException {
+    	return verifyIfExists(id);
     }
     
     //Metodo verificar se produto existe para nos auxiliar no desenvolvimento.

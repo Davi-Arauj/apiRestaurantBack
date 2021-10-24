@@ -23,7 +23,7 @@ public class OrderedItemPK implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	private ProductDTO product;
+	private Product product;
 
 	
 

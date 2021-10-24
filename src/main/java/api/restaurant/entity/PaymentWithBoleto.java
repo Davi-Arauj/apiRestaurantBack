@@ -9,7 +9,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import api.restaurant.entity.enums.Paymentstate;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper=false)
 @Data
 @Entity
 @JsonTypeName("paymentWithBoleto")

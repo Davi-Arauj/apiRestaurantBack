@@ -16,6 +16,8 @@ public class CategoryDTO {
 	@Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
 	private String description;
 	
+	
+	
 	public CategoryDTO() {}
 	
 

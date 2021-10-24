@@ -45,7 +45,7 @@ public class ProductResource {
 //	    }
 	    
 	    @GetMapping("/{id}")
-	    public ProductDTO findById(@PathVariable Long id) throws ObjectNotFoundException {
+	    public Product findById(@PathVariable Long id) throws ObjectNotFoundException {
 	        return productService.findById(id);
 	    }
 	    @PutMapping("/{id}")

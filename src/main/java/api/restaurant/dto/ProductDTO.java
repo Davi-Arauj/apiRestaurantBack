@@ -8,13 +8,9 @@ import java.util.Set;
 import api.restaurant.entity.Category;
 import api.restaurant.entity.OrderedItem;
 import api.restaurant.entity.Product;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
-@Builder
 public class ProductDTO {
 
 	private Long id;
@@ -31,12 +27,12 @@ public class ProductDTO {
 		
 	}
 	
-	public ProductDTO(Long id, String description, double price) {
-		super();
-		this.id = id;
-		this.nome = description;
-		this.price = price;
-	}
+//	public ProductDTO(Long id, String description, double price) {
+//		super();
+//		this.id = id;
+//		this.nome = description;
+//		this.price = price;
+//	}
 
 	public ProductDTO() {
 		
