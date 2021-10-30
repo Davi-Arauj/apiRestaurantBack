@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import api.restaurant.entity.enums.Paymentstate;
 import lombok.Data;
+import lombok.experimental.Tolerate;
 
 @Data
 @Entity
@@ -26,6 +27,7 @@ public abstract class Payment implements Serializable {
 
 	@Id
 	private Long id;
+	
 	private Integer state;
 
 	@JsonIgnore
@@ -43,6 +45,20 @@ public abstract class Payment implements Serializable {
 		this.state = state.getCod();
 		this.request = pedido;
 	}
+	
+
+	public Paymentstate getState() {
+		return Paymentstate.toEnum(state);
+	}
+
+	@Tolerate
+	public void setState(Paymentstate estado) {
+		this.state = estado.getCod();
+	}
+	
+	
+	
+	
 	
 	@Override
 	public int hashCode() {
