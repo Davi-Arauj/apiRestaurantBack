@@ -4,10 +4,10 @@ public enum Paymentstate {
 
 	PENDENTE(1, "Pendente"), QUITADO(2, "Quitado"), CANCELADO(3, "Cancelado");
 
-	private int cod;
+	private Integer cod;
 	private String description;
 
-	private Paymentstate(int cod, String description) {
+	private Paymentstate(Integer cod, String description) {
 		this.cod = cod;
 		this.description = description;
 	}

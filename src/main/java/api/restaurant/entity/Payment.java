@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -17,7 +18,6 @@ import api.restaurant.entity.enums.Paymentstate;
 import lombok.Data;
 import lombok.experimental.Tolerate;
 
-@Data
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
@@ -30,7 +30,7 @@ public abstract class Payment implements Serializable {
 	
 	private Integer state;
 
-	@JsonIgnore
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name="request_id")
 	@MapsId
@@ -56,9 +56,13 @@ public abstract class Payment implements Serializable {
 		this.state = estado.getCod();
 	}
 	
-	
-	
-	
+	public Pedido getRequest() {
+		return request;
+	}
+
+	public void setRequest(Pedido request) {
+		this.request = request;
+	}
 	
 	@Override
 	public int hashCode() {

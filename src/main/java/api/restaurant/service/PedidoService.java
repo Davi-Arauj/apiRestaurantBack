@@ -34,6 +34,9 @@ public class PedidoService {
 	
 	@Autowired
 	private ClientService clienteService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	public Pedido buscar(Long id) {
 		 return requestRepo.findById(id)
@@ -44,7 +47,7 @@ public class PedidoService {
 		obj.setId(null);
 		obj.setInstant(new Date());
 		obj.setClient(clienteService.findById(obj.getClient().getId()));
-		obj.getPayment().setState(Paymentstate.PENDENTE.getCod());
+		obj.getPayment().setState(Paymentstate.PENDENTE);
 		obj.getPayment().setRequest(obj);
 		if (obj.getPayment() instanceof PaymentWithBoleto) {
 			PaymentWithBoleto pagto = (PaymentWithBoleto) obj.getPayment();
@@ -59,8 +62,7 @@ public class PedidoService {
 			ip.setPedido(obj);
 		}
 		itemPedidoRepository.saveAll(obj.getItens());
-		System.out.println(obj);
-	//	emailService.sendOrderConfirmationEmail(obj);
+		emailService.sendOrderConfirmationEmail(obj);
 		return obj;
 		
 	}

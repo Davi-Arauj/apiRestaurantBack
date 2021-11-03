@@ -32,6 +32,7 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instant;
 	
@@ -39,15 +40,16 @@ public class Pedido implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "request")
 	private Payment payment;
 	
-	@JsonManagedReference
+	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private Client client;
+	
 	@ManyToOne
 	@JoinColumn(name = "delivery_address_id")
 	private Address deliveryAddress;
 	
-	@JsonManagedReference
+	
 	@OneToMany(mappedBy = "id.request")
 	private Set<OrderedItem> itens = new HashSet<>();
 
