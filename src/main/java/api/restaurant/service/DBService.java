@@ -20,6 +20,7 @@ import api.restaurant.entity.Pedido;
 import api.restaurant.entity.Product;
 import api.restaurant.entity.State;
 import api.restaurant.entity.enums.Paymentstate;
+import api.restaurant.entity.enums.Profile;
 import api.restaurant.entity.enums.TypeClient;
 import api.restaurant.repository.AddressRepository;
 import api.restaurant.repository.CategoryRepository;
@@ -116,15 +117,20 @@ public class DBService {
 		ctRepo.saveAll(Arrays.asList(c1, c2, c3));
 
 		Client cli1 = new Client(null, "Maria Silva", "moreiradaavi@gmail.com", "36378912377", TypeClient.PESSOA_FISICA,pe.encode("123"));
-
 		cli1.getTelephones().addAll(Arrays.asList("27363323", "93838393"));
-
+		
+		Client cli2 = new Client(null, "Jayane Feitosa", "jayanefeitosa39@gmail.com", "69831519094", TypeClient.PESSOA_FISICA,pe.encode("123"));
+		cli2.getTelephones().addAll(Arrays.asList("22463323", "45638393"));
+		cli2.addPerfil(Profile.ADMIN);
+		
 		Address e1 = new Address(null, "Rua das Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
 		Address e2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+		Address e3 = new Address(null, "Manoel Soares", "107", null, "Centro", "63077012", cli2, c2);
 
 		cli1.getAdresses().addAll(Arrays.asList(e1, e2));
+		cli2.getAdresses().addAll(Arrays.asList(e3));
 
-		clienteRepository.saveAll(Arrays.asList(cli1));
+		clienteRepository.saveAll(Arrays.asList(cli1,cli2));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
