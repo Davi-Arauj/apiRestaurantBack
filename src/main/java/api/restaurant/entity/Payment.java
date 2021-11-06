@@ -11,11 +11,9 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import api.restaurant.entity.enums.Paymentstate;
-import lombok.Data;
 import lombok.experimental.Tolerate;
 
 @Entity

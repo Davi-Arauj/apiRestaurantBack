@@ -5,9 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import api.restaurant.dto.ProductDTO;
 import api.restaurant.entity.Address;
 import api.restaurant.entity.Category;
 import api.restaurant.entity.City;
@@ -21,7 +21,6 @@ import api.restaurant.entity.Product;
 import api.restaurant.entity.State;
 import api.restaurant.entity.enums.Paymentstate;
 import api.restaurant.entity.enums.TypeClient;
-import api.restaurant.mapper.ProductMaping;
 import api.restaurant.repository.AddressRepository;
 import api.restaurant.repository.CategoryRepository;
 import api.restaurant.repository.CityRepository;
@@ -53,7 +52,8 @@ public class DBService {
 	StateRepository estadoRepository;
 	@Autowired
 	OrderedItemRepository itemPedidoRepository;
-	
+	@Autowired
+	 BCryptPasswordEncoder pe;
 
 	public void instantiateTestDatabase() throws ParseException {
 		Category cat1 = new Category(null, "Informática");
@@ -115,7 +115,7 @@ public class DBService {
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		ctRepo.saveAll(Arrays.asList(c1, c2, c3));
 
-		Client cli1 = new Client(null, "Maria Silva", "moreiradaavi@gmail.com", "36378912377", TypeClient.PESSOA_FISICA);
+		Client cli1 = new Client(null, "Maria Silva", "moreiradaavi@gmail.com", "36378912377", TypeClient.PESSOA_FISICA,pe.encode("123"));
 
 		cli1.getTelephones().addAll(Arrays.asList("27363323", "93838393"));
 

@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import api.restaurant.entity.enums.TypeClient;
 import lombok.Data;
@@ -36,6 +37,9 @@ public class Client implements Serializable {
 	private String email;
 	private String cpfOuCnpj;
 	private Integer typeClient;
+	
+	@JsonIgnore
+	private String password;
 
 	@OneToMany(mappedBy = "client", cascade=CascadeType.ALL)
 	private List<Address> adresses = new ArrayList<>();
@@ -51,13 +55,14 @@ public class Client implements Serializable {
 	public Client() {
 	}
 
-	public Client(Long id, String name, String email, String cpfouCnpj, TypeClient typeClient) {
+	public Client(Long id, String name, String email, String cpfouCnpj, TypeClient typeClient, String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.cpfOuCnpj = cpfouCnpj;
 		this.typeClient = (typeClient==null) ? null : typeClient.getCod();
+		this.password = password;
 	}
 
 	

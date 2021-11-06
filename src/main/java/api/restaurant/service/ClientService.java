@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import api.restaurant.dto.ClientDTO;
@@ -32,6 +33,8 @@ public class ClientService {
 	private ClientRepository clientRepository;
 	
 	private AddressRepository addressRepository;
+	
+	private BCryptPasswordEncoder pe;
 
 	// Criando um novo cliente.
 	@Transactional
@@ -95,13 +98,13 @@ public class ClientService {
 
 	//Transformando um objetoDTO em objeto
 	public Client fromDTO(ClientDTO objDto) {
-		return new Client(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null);
+		return new Client(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null,null);
 	}
 
 	//Transformando um objeto em objetoDTO
 	public Client fromDTO(ClientNewDTO objDto) {
 		Client cli = new Client(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOuCnpj(),
-				TypeClient.toEnum(objDto.getTypeClient()));
+				TypeClient.toEnum(objDto.getTypeClient()),pe.encode(objDto.getPassword()));
 		City cid = new City(objDto.getCityId(), null, null);
 		Address end = new Address(null, objDto.getPublicPlace(), objDto.getNumber(), objDto.getComplement(),
 				objDto.getDistrict(), objDto.getCep(), cli, cid);

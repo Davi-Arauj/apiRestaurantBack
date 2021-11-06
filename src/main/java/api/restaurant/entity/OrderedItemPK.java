@@ -6,7 +6,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import api.restaurant.dto.ProductDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
