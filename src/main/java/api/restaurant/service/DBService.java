@@ -54,7 +54,7 @@ public class DBService {
 	@Autowired
 	OrderedItemRepository itemPedidoRepository;
 	@Autowired
-	 BCryptPasswordEncoder pe;
+	BCryptPasswordEncoder pe;
 
 	public void instantiateTestDatabase() throws ParseException {
 		Category cat1 = new Category(null, "Informática");
