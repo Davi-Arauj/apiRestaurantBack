@@ -19,9 +19,12 @@ import api.restaurant.dto.response.ClientResponseDTO;
 import api.restaurant.entity.Address;
 import api.restaurant.entity.City;
 import api.restaurant.entity.Client;
+import api.restaurant.entity.enums.Profile;
 import api.restaurant.entity.enums.TypeClient;
 import api.restaurant.repository.AddressRepository;
 import api.restaurant.repository.ClientRepository;
+import api.restaurant.security.UserSS;
+import api.restaurant.service.exception.AuthorizationException;
 import api.restaurant.service.exception.DataIntegrityException;
 import api.restaurant.service.exception.ObjectNotFoundException;
 import lombok.AllArgsConstructor;
@@ -63,6 +66,12 @@ public class ClientService {
 
 	// Buscando um cliente por o ID
 	public Client findById(Long id) throws ObjectNotFoundException {
+		//Verificando qual o usuário está logado, liberando acesso para o cliente logado ou admin.
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Client> obj = clientRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Client.class.getName()));
