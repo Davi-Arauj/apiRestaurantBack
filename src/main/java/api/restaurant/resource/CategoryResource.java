@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class CategoryResource {
 	 @Autowired
 	 private CategoryService catService;
 	 
+		@PreAuthorize("hasAnyRole('ADMIN')")
 	    @PostMapping
 	    @ResponseStatus(HttpStatus.CREATED)
 	    public CategoryResponseDTO create(@RequestBody @Valid CategoryDTO categoryDTO) {
@@ -62,10 +64,14 @@ public class CategoryResource {
 	    public CategoryDTO findById(@PathVariable Long id) throws ObjectNotFoundException {
 	        return catService.findById(id);
 	    }
+
+	    @PreAuthorize("hasAnyRole('ADMIN')")
 	    @PutMapping("/{id}")
 	    public CategoryResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid CategoryDTO categoryDTO) throws ObjectNotFoundException {
 	        return catService.updateById(id, categoryDTO);
 	    }
+	    
+		@PreAuthorize("hasAnyRole('ADMIN')")
 	    @DeleteMapping("/{id}")
 	    @ResponseStatus(HttpStatus.NO_CONTENT)
 	    public void deleteById(@PathVariable Long id) throws ObjectNotFoundException {
