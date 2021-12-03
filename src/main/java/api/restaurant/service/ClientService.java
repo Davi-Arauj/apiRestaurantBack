@@ -1,5 +1,6 @@
 package api.restaurant.service;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import api.restaurant.dto.ClientDTO;
 import api.restaurant.dto.ClientNewDTO;
@@ -38,6 +40,8 @@ public class ClientService {
 	private AddressRepository addressRepository;
 	
 	private BCryptPasswordEncoder pe;
+	
+	private S3Service s3service;
 
 	// Criando um novo cliente.
 	@Transactional
@@ -126,5 +130,10 @@ public class ClientService {
 			cli.getTelephones().add(objDto.getTelephone3());
 		}
 		return cli;
+	}
+	
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {	
+		return s3service.uploadFile(multipartFile);		
 	}
 }

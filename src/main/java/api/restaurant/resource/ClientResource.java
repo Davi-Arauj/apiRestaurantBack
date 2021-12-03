@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 
 import api.restaurant.dto.ClientDTO;
 import api.restaurant.dto.ClientNewDTO;
@@ -80,6 +82,12 @@ public class ClientResource {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteById(@PathVariable Long id) throws ObjectNotFoundException {
 		clientService.delete(id);
+	}
+	
+	@PostMapping(value="/picture")
+	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name="file") MultipartFile file) {
+		URI uri = clientService.uploadProfilePicture(file);
+		return ResponseEntity.created(uri).build();
 	}
 
 }
