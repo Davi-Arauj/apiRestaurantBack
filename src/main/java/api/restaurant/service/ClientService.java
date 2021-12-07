@@ -1,5 +1,6 @@
 package api.restaurant.service;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +8,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,19 +31,23 @@ import api.restaurant.security.UserSS;
 import api.restaurant.service.exception.AuthorizationException;
 import api.restaurant.service.exception.DataIntegrityException;
 import api.restaurant.service.exception.ObjectNotFoundException;
-import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class ClientService {
-
+	
+	@Autowired
 	private ClientRepository clientRepository;
-	
+	@Autowired
 	private AddressRepository addressRepository;
-	
+	@Autowired
 	private BCryptPasswordEncoder pe;
-	
+	@Autowired
 	private S3Service s3service;
+	@Autowired
+	private ImageService imageService;
+
+	@Value("${img.prefix.client.profile}")
+	private String prefix;
 
 	// Criando um novo cliente.
 	@Transactional
@@ -70,18 +76,19 @@ public class ClientService {
 
 	// Buscando um cliente por o ID
 	public Client findById(Long id) throws ObjectNotFoundException {
-		//Verificando qual o usuário está logado, liberando acesso para o cliente logado ou admin.
+		// Verificando qual o usuário está logado, liberando acesso para o cliente
+		// logado ou admin.
 		UserSS user = UserService.authenticated();
-		if (user==null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
+		if (user == null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acesso negado");
 		}
-		
+
 		Optional<Client> obj = clientRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Client.class.getName()));
 	}
 
-	// Metodo verificar se um objeto existe 	
+	// Metodo verificar se um objeto existe
 	private Client verifyIfExists(Long id) throws ObjectNotFoundException {
 		return clientRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found"));
 	}
@@ -100,24 +107,26 @@ public class ClientService {
 		try {
 			clientRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Cannot delete because there are related entities");		}
+			throw new DataIntegrityException("Cannot delete because there are related entities");
+		}
 	}
-	//Metodo para auxiliar na atualização
+
+	// Metodo para auxiliar na atualização
 	private Client updateData(Client updatedClient, ClientDTO clientdto) {
 		updatedClient.setName(clientdto.getName());
 		updatedClient.setEmail(clientdto.getEmail());
 		return updatedClient;
 	}
 
-	//Transformando um objetoDTO em objeto
+	// Transformando um objetoDTO em objeto
 	public Client fromDTO(ClientDTO objDto) {
-		return new Client(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null,null);
+		return new Client(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null, null);
 	}
 
-	//Transformando um objeto em objetoDTO
+	// Transformando um objeto em objetoDTO
 	public Client fromDTO(ClientNewDTO objDto) {
 		Client cli = new Client(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOuCnpj(),
-				TypeClient.toEnum(objDto.getTypeClient()),pe.encode(objDto.getPassword()));
+				TypeClient.toEnum(objDto.getTypeClient()), pe.encode(objDto.getPassword()));
 		City cid = new City(objDto.getCityId(), null, null);
 		Address end = new Address(null, objDto.getPublicPlace(), objDto.getNumber(), objDto.getComplement(),
 				objDto.getDistrict(), objDto.getCep(), cli, cid);
@@ -131,9 +140,19 @@ public class ClientService {
 		}
 		return cli;
 	}
-	
-	
-	public URI uploadProfilePicture(MultipartFile multipartFile) {	
-		return s3service.uploadFile(multipartFile);		
+
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso Negado!");
+		}
+		BufferedImage imageJpg = imageService.getJpgImageFromFile(multipartFile);
+		String fileName = prefix + user.getId() + ".jpg";
+
+		return s3service.uploadFile(imageService.getInputStream(imageJpg, "jpg"),fileName, "image");
 	}
-}
+	
+
+	
+} 
