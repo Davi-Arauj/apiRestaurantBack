@@ -50,7 +50,7 @@ public class DBService {
 	@Autowired
 	AddressRepository enderecoRepository;
 	@Autowired
-	StateRepository estadoRepository;
+	StateRepository stateRepository;
 	@Autowired
 	OrderedItemRepository itemPedidoRepository;
 	@Autowired
@@ -113,7 +113,7 @@ public class DBService {
 
 		est1.getCities().addAll(Arrays.asList(c1));
 		est2.getCities().addAll(Arrays.asList(c2, c3));
-		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		stateRepository.saveAll(Arrays.asList(est1, est2));
 		ctRepo.saveAll(Arrays.asList(c1, c2, c3));
 
 		Client cli1 = new Client(null, "Maria Silva", "moreiradaavi@gmail.com", "36378912377", TypeClient.PESSOA_FISICA,pe.encode("123"));

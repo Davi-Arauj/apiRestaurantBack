@@ -10,9 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode
 @Data
 @Entity
 public class City implements Serializable{

@@ -13,9 +13,8 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode
+
 @Data
 @Entity
 public class State implements Serializable{
