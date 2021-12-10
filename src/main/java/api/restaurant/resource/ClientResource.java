@@ -47,6 +47,11 @@ public class ClientResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cli.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+	@GetMapping(value="/email")
+	public ResponseEntity<Client> find(@RequestParam(value="value") String email) {
+		Client obj = clientService.findByEmail(email);
+		return ResponseEntity.ok().body(obj);
+	}
 
 	@GetMapping
 	public ResponseEntity<List<ClientDTO>> findAll() {

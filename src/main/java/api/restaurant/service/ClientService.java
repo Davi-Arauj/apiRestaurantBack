@@ -91,6 +91,21 @@ public class ClientService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Client.class.getName()));
 	}
+	
+	//Buscar Client por o email
+	public Client findByEmail(String email) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Profile.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
+		Client obj = clientRepository.findByEmail(email);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Client.class.getName());
+		}
+		return obj;
+	}
 
 	// Metodo verificar se um objeto existe
 	private Client verifyIfExists(Long id) throws ObjectNotFoundException {
@@ -156,7 +171,7 @@ public class ClientService {
 		jpgImage = imageService.resize(jpgImage, size);
 		String fileName = prefix + user.getId() + ".jpg";
 
-		return s3service.uploadFile(imageService.getInputStream(jpgImage																																		, "jpg"),fileName, "image");
+		return s3service.uploadFile(imageService.getInputStream(jpgImage, "jpg"),fileName, "image");
 	}
 	
 
