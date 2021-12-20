@@ -1,6 +1,7 @@
 package api.restaurant.resource;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,14 +30,14 @@ public class StateResource {
 	@GetMapping
 	public ResponseEntity<List<StateDTO>> findAllState(){
 		List<State> list = stateService.findAll();
-		List<StateDTO> listDTO = list.stream().map(obj -> new StateDTO(obj)).toList();
+		List<StateDTO> listDTO = list.stream().map(obj -> new StateDTO(obj)).collect(Collectors.toList()); 
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
 	@GetMapping(value="/{stateId}/city")
 	public ResponseEntity<List<CityDTO>> findAllCity(@PathVariable Integer stateId){
 		List<City> list = cityService.findByState(stateId);
-		List<CityDTO> listDTO = list.stream().map(obj -> new CityDTO(obj)).toList();
+		List<CityDTO> listDTO = list.stream().map(obj -> new CityDTO(obj)).collect(Collectors.toList()); 
 		return ResponseEntity.ok().body(listDTO);
 	}
 }
