@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="MavenProjectImportWizardPage">
+		<list key="rootDirectory">
+			<item value="/home/davi/Documents/workspace-spring-tool-suite-4-4.13.0.RELEASE/restaurant"/>
+			<item value="/media/davi/88192e61-bc2a-4a6c-9970-c3e55444c0df/home/d/Documents/workspace-spring-tool-suite-4-4.11.0.RELEASE/restaurant"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+</section>

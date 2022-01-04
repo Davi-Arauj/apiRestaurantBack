@@ -1,0 +1,2 @@
+INDEX VERSION 1.131+/home/davi/Documents/workspace-spring-tool-suite-4-4.13.0.RELEASE/restaurant/.metadata/.plugins/org.eclipse.jdt.core
+1865797976.index
