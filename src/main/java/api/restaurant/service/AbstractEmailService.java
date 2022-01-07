@@ -15,16 +15,17 @@ import org.thymeleaf.context.Context;
 
 import api.restaurant.entity.Client;
 import api.restaurant.entity.Pedido;
-
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+@NoArgsConstructor
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public abstract class AbstractEmailService implements EmailService {
 
 	@Value("${default.sender}")
 	private String sender;
 	
-	@Autowired
 	private TemplateEngine templateEngine;
 	
-	@Autowired
 	private JavaMailSender javaMailSender;
 	
 	@Override

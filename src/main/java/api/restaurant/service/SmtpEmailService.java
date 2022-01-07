@@ -9,12 +9,14 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+@NoArgsConstructor
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class SmtpEmailService extends AbstractEmailService{
 
-	@Autowired
 	private MailSender mailSender;
 	
-	@Autowired
 	private JavaMailSender javaMailSender;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SmtpEmailService.class); 
