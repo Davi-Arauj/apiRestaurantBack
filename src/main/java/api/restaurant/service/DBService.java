@@ -35,8 +35,7 @@ import api.restaurant.repository.StateRepository;
 @Service
 public class DBService {
 
-	@Autowired
-	CityRepository ctRepo;
+	
 	@Autowired
 	CategoryRepository catRepo;
 	@Autowired
@@ -55,6 +54,8 @@ public class DBService {
 	OrderedItemRepository itemPedidoRepository;
 	@Autowired
 	BCryptPasswordEncoder pe;
+	@Autowired
+	CityRepository ctRepo;
 
 	public void instantiateTestDatabase() throws ParseException {
 		Category cat1 = new Category(null, "Informática");

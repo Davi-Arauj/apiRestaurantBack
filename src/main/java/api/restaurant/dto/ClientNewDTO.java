@@ -50,7 +50,7 @@ public class ClientNewDTO implements Serializable {
 	private String telephone2;
 	private String telephone3;
 
-	private Integer cityId;
+	private Long cityId;
 
 	public ClientNewDTO() {
 	}
